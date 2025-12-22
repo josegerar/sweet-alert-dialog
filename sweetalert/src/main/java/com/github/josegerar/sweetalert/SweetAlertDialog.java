@@ -924,5 +924,11 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         public SweetAlertDialog build() {
             return new SweetAlertDialog(this);
         }
+
+        public SweetAlertDialog show() {
+            var dialog = build();
+            dialog.show();
+            return dialog;
+        }
     }
 }

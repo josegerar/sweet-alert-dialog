@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace "com.github.josegerar.sweetalert"
-    compileSdk 36
+    compileSdk = 36
 
     defaultConfig {
         minSdk 19
@@ -35,7 +35,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.josegerar'
                 artifactId = 'sweetalert'
-                version = '2.0.0'
+                version = '2.0.1'
             }
         }
     }
