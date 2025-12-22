@@ -85,7 +85,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/success_circle" />
 
-            <cn.pedant.SweetAlert.SuccessTickView
+            <com.github.josegerar.sweetalert.SuccessTickView
                 android:id="@+id/success_tick"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -187,9 +187,7 @@
                 style="@style/dialog_blue_button"
                 android:layout_marginRight="25dp"
                 android:background="@drawable/red_button_background"
-                android:visibility="gone"
-                tools:text="cancel"
-                tools:visibility="visible" />
+                tools:text="cancel d d d d d d d d" />
 
             <Button
                 android:id="@+id/neutral_button"
@@ -197,15 +195,12 @@
                 android:layout_marginLeft="-10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/gray_button_background"
-                android:visibility="gone"
-                tools:text="neutral"
-                tools:visibility="gone" />
+                tools:text="neutral d d d d"/>
 
             <Button
                 android:id="@+id/confirm_button"
                 style="@style/dialog_blue_button"
-                android:text="Ok"
-                android:visibility="gone" />
+                tools:text="Ok d d d dd d d" />
         </LinearLayout>
 
 

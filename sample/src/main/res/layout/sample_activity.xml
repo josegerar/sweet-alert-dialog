@@ -26,7 +26,8 @@
             android:scaleX="0.8"
             android:scaleY="0.8"
             android:text="Dark style"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:layout_toEndOf="@id/logo_img" />
 
         <LinearLayout
             android:layout_width="wrap_content"

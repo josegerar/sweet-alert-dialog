@@ -1,4 +1,4 @@
-package cn.pedant.SweetAlert;
+package com.github.josegerar.sweetalert;
 
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -14,13 +14,16 @@ public class Constants {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                 case MotionEvent.ACTION_BUTTON_PRESS:
-
-                    drawable.setColorFilter(0x20000000, PorterDuff.Mode.SRC_ATOP);
+                    if (drawable != null) {
+                        drawable.setColorFilter(0x20000000, PorterDuff.Mode.SRC_ATOP);
+                    }
                     v.invalidate();
                     break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
-                    drawable.clearColorFilter();
+                    if (drawable != null) {
+                        drawable.clearColorFilter();
+                    }
                     v.invalidate();
                     break;
             }

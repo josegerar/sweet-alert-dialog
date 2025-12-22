@@ -1,32 +1,28 @@
-apply plugin: 'com.android.application'
-
-version = VERSION_NAME
-group = GROUP
+plugins {
+    id 'com.android.application'
+}
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    namespace "com.github.josegerar.sweetalert.sample"
+    compileSdk 36
 
     defaultConfig {
-        minSdkVersion 13
-        targetSdkVersion 27
-    }
-
-    lintOptions {
-        abortOnError false
+        applicationId "com.github.josegerar.sweetalert.sample"
+        minSdk 19
+        targetSdk 36
+        versionCode 1
+        versionName "1.0.0"
     }
 
     buildTypes {
         release {
-            proguardFile 'proguard-android.txt'
             minifyEnabled true
             shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion '27.0.3'
 }
 
 dependencies {
-    //compile 'cn.pedant.sweetalert:library:1.3'
     implementation project(':library')
 }
