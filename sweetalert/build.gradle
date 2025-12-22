@@ -18,8 +18,6 @@ android {
     }
 
     publishing {
-        // Publishes "fullRelease" build variant with "fullRelease" component created by
-        // Android Gradle plugin
         singleVariant("release")
     }
 }
@@ -35,7 +33,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.josegerar'
                 artifactId = 'sweetalert'
-                version = '2.0.3'
+                version = '2.0.4'
             }
         }
     }
