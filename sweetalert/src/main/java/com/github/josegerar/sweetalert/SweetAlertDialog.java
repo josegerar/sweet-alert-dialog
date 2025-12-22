@@ -762,7 +762,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     }
 
     public static class Builder {
-        private Context context;
+        private final Context context;
         private int alertType = NORMAL_TYPE;
         private String titleText;
         private String contentText;

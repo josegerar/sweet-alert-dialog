@@ -13,5 +13,6 @@ dependencyResolutionManagement {
         maven { url "https://jitpack.io"}
     }
 }
-include ':library'
+rootProject.name = "Sweetalert"
+include ':sweetalert'
 include ':sample'
