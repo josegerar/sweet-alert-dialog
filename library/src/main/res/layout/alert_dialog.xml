@@ -175,32 +175,50 @@
 
         <LinearLayout
             android:id="@+id/buttons_container"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:divider="@drawable/spacer_medium"
             android:gravity="center"
             android:paddingBottom="4dp"
             android:paddingTop="10dp"
+            android:showDividers="middle"
             android:visibility="visible">
 
             <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:minHeight="40dp"
                 android:id="@+id/cancel_button"
-                style="@style/dialog_blue_button"
-                android:layout_marginRight="25dp"
+                android:maxLines="5"
+                android:textColor="@color/button_text_color"
                 android:background="@drawable/red_button_background"
-                tools:text="cancel d d d d d d d d" />
+                tools:text="cancel"
+                android:visibility="gone"/>
 
             <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:minHeight="40dp"
                 android:id="@+id/neutral_button"
-                style="@style/dialog_blue_button"
-                android:layout_marginLeft="-10dp"
-                android:layout_marginRight="10dp"
+                android:maxLines="5"
+                android:textColor="@color/button_text_color"
                 android:background="@drawable/gray_button_background"
-                tools:text="neutral d d d d"/>
+                android:visibility="gone"
+                tools:text="neutral" />
 
             <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:minHeight="40dp"
+                android:maxLines="5"
+                android:textColor="@color/button_text_color"
+                android:background="@drawable/green_button_background"
                 android:id="@+id/confirm_button"
-                style="@style/dialog_blue_button"
-                tools:text="Ok d d d dd d d" />
+                android:visibility="gone"
+                tools:text="Ok" />
         </LinearLayout>
 
 

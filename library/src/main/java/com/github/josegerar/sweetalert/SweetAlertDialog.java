@@ -97,6 +97,8 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
 
     private final float defStrokeWidth;
     private float strokeWidth = 0;
+    private boolean titleTextHtml = false;
+    private boolean contentTextHtml = false;
 
 
     public SweetAlertDialog hideConfirmButton() {
@@ -108,11 +110,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         void onClick(SweetAlertDialog sweetAlertDialog);
     }
 
-    public SweetAlertDialog(Context context) {
-        this(context, NORMAL_TYPE);
-    }
-
-    public SweetAlertDialog(Context context, int alertType) {
+    private SweetAlertDialog(Context context, int alertType) {
         super(context, DARK_STYLE ? R.style.alert_dialog_dark : R.style.alert_dialog_light);
         setCancelable(true);
         setCanceledOnTouchOutside(true); //TODO was false
@@ -183,6 +181,34 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         mOverlayOutAnim.setDuration(120);
     }
 
+    private SweetAlertDialog(Builder builder) {
+        this(builder.context, builder.alertType);
+        this.mTitleText = builder.titleText;
+        this.mContentText = builder.contentText;
+        this.mShowCancel = builder.showCancel;
+        this.mCancelText = builder.cancelText;
+        this.mConfirmText = builder.confirmText;
+        this.mNeutralText = builder.neutralText;
+        this.mCustomImgDrawable = builder.customImgDrawable;
+        this.mHideConfirmButton = builder.hideConfirmButton;
+        this.mConfirmButtonBackgroundColor = builder.confirmButtonBackgroundColor;
+        this.mConfirmButtonTextColor = builder.confirmButtonTextColor;
+        this.mNeutralButtonBackgroundColor = builder.neutralButtonBackgroundColor;
+        this.mNeutralButtonTextColor = builder.neutralButtonTextColor;
+        this.mCancelButtonBackgroundColor = builder.cancelButtonBackgroundColor;
+        this.mCancelButtonTextColor = builder.cancelButtonTextColor;
+        this.mCancelClickListener = builder.cancelClickListener;
+        this.mConfirmClickListener = builder.confirmClickListener;
+        this.mNeutralClickListener = builder.neutralClickListener;
+        this.mCloseFromCancel = builder.closeFromCancel;
+        this.mHideKeyBoardOnDismiss = builder.hideKeyBoardOnDismiss;
+        this.contentTextSize = builder.contentTextSize;
+        this.mCustomView = builder.customView;
+        this.strokeWidth = builder.strokeWidth;
+        this.titleTextHtml = builder.titleTextHtml;
+        this.contentTextHtml = builder.contentTextHtml;
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alert_dialog);
@@ -212,8 +238,8 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         mNeutralButton.setOnTouchListener(Constants.FOCUS_TOUCH_LISTENER);
         mProgressHelper.setProgressWheel((ProgressWheel) findViewById(R.id.progressWheel));
 
-        setTitleText(mTitleText);
-        setContentText(mContentText);
+        setTitleText(mTitleText, titleTextHtml);
+        setContentText(mContentText, contentTextHtml);
         setCustomView(mCustomView);
         setCancelText(mCancelText);
         setConfirmText(mConfirmText);
@@ -226,7 +252,6 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         setNeutralButtonBackgroundColor(mNeutralButtonBackgroundColor);
         setNeutralButtonTextColor(mNeutralButtonTextColor);
         changeAlertType(mAlertType, true);
-
     }
 
     private void restore() {
@@ -327,23 +352,32 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     }
 
     public SweetAlertDialog setTitleText(String text) {
+        return setTitleText(text, false);
+    }
+
+    public SweetAlertDialog setTitleText(String text, Boolean htmlContent) {
         mTitleText = text;
+        titleTextHtml = htmlContent;
         if (mTitleTextView != null && mTitleText != null) {
             if (text.isEmpty()) {
                 mTitleTextView.setVisibility(View.GONE);
             } else {
                 mTitleTextView.setVisibility(View.VISIBLE);
-                mTitleTextView.setText(Html.fromHtml(mTitleText));
+                if (htmlContent) {
+                    mTitleTextView.setText(Html.fromHtml(mTitleText));
+                } else {
+                    mTitleTextView.setText(mTitleText);
+                }
             }
         }
         return this;
     }
 
-    public SweetAlertDialog setTitleText(int resId) {
-        return setTitleText(getContext().getResources().getString(resId));
+    public SweetAlertDialog setTitleText(int resId, Boolean htmlContent) {
+        return setTitleText(getContext().getResources().getString(resId), htmlContent);
     }
 
-    public SweetAlertDialog setCustomImage(Drawable drawable) {
+    private SweetAlertDialog setCustomImage(Drawable drawable) {
         mCustomImgDrawable = drawable;
         if (mCustomImage != null && mCustomImgDrawable != null) {
             mCustomImage.setVisibility(View.VISIBLE);
@@ -352,7 +386,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         return this;
     }
 
-    public SweetAlertDialog setCustomImage(int resourceId) {
+    private SweetAlertDialog setCustomImage(int resourceId) {
         return setCustomImage(getContext().getResources().getDrawable(resourceId));
     }
 
@@ -363,18 +397,27 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     /**
      * @param text text which can contain html tags.
      */
-    public SweetAlertDialog setContentText(String text) {
+    public SweetAlertDialog setContentText(String text, Boolean htmlContent) {
         mContentText = text;
+        contentTextHtml = htmlContent;
         if (mContentTextView != null && mContentText != null) {
             showContentText(true);
             if (contentTextSize != 0) {
                 mContentTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, spToPx(contentTextSize, getContext()));
             }
-            mContentTextView.setText(Html.fromHtml(mContentText));
+            if (htmlContent) {
+                mContentTextView.setText(Html.fromHtml(mContentText));
+            } else {
+                mContentTextView.setText(mContentText);
+            }
             mContentTextView.setVisibility(View.VISIBLE);
             mCustomViewContainer.setVisibility(View.GONE);
         }
         return this;
+    }
+
+    public SweetAlertDialog setContentText(String text) {
+        return setContentText(text, false);
     }
 
     public static int spToPx(float sp, Context context) {
@@ -384,7 +427,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     /**
      * @param width in SP
      */
-    public SweetAlertDialog setStrokeWidth(float width) {
+    private SweetAlertDialog setStrokeWidth(float width) {
         this.strokeWidth = spToPx(width, getContext());
         return this;
     }
@@ -559,12 +602,12 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
 
     @Override
     public void setTitle(CharSequence title) {
-        this.setTitleText(title.toString());
+        this.setTitleText(title.toString(), titleTextHtml);
     }
 
     @Override
     public void setTitle(int titleId) {
-        this.setTitleText(getContext().getResources().getString(titleId));
+        this.setTitleText(getContext().getResources().getString(titleId), titleTextHtml);
     }
 
     public Button getButton(int buttonType) {
@@ -715,6 +758,171 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
             if (inputMethodManager != null && activity.getCurrentFocus() != null) {
                 inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
             }
+        }
+    }
+
+    public static class Builder {
+        private Context context;
+        private int alertType = NORMAL_TYPE;
+        private String titleText;
+        private String contentText;
+        private boolean showCancel;
+        private String cancelText;
+        private String confirmText;
+        private String neutralText;
+        private Drawable customImgDrawable;
+        private boolean hideConfirmButton = false;
+        private Integer confirmButtonBackgroundColor;
+        private Integer confirmButtonTextColor;
+        private Integer neutralButtonBackgroundColor;
+        private Integer neutralButtonTextColor;
+        private Integer cancelButtonBackgroundColor;
+        private Integer cancelButtonTextColor;
+        private OnSweetClickListener cancelClickListener;
+        private OnSweetClickListener confirmClickListener;
+        private OnSweetClickListener neutralClickListener;
+        private boolean closeFromCancel;
+        private boolean hideKeyBoardOnDismiss = true;
+        private int contentTextSize = 0;
+        private View customView;
+        private float strokeWidth = 0;
+        private boolean titleTextHtml = false;
+        private boolean contentTextHtml = false;
+
+
+        public Builder(Context context) {
+            this.context = context;
+        }
+
+        public Builder setAlertType(int alertType) {
+            this.alertType = alertType;
+            return this;
+        }
+
+        public Builder setTitleText(String titleText) {
+            this.titleText = titleText;
+            return this;
+        }
+
+        public Builder setTitleText(String titleText, boolean isHtml) {
+            this.titleText = titleText;
+            this.titleTextHtml = isHtml;
+            return this;
+        }
+
+        public Builder setContentText(String contentText) {
+            this.contentText = contentText;
+            return this;
+        }
+
+        public Builder setContentText(String contentText, boolean isHtml) {
+            this.contentText = contentText;
+            this.contentTextHtml = isHtml;
+            return this;
+        }
+
+        public Builder showCancelButton(boolean showCancel) {
+            this.showCancel = showCancel;
+            return this;
+        }
+
+        public Builder setCancelText(String cancelText) {
+            this.cancelText = cancelText;
+            return this;
+        }
+
+        public Builder setConfirmText(String confirmText) {
+            this.confirmText = confirmText;
+            return this;
+        }
+
+        public Builder setNeutralText(String neutralText) {
+            this.neutralText = neutralText;
+            return this;
+        }
+
+        public Builder setCustomImage(Drawable customImgDrawable) {
+            this.customImgDrawable = customImgDrawable;
+            return this;
+        }
+
+        public Builder hideConfirmButton(boolean hideConfirmButton) {
+            this.hideConfirmButton = hideConfirmButton;
+            return this;
+        }
+
+        public Builder setConfirmButtonBackgroundColor(Integer confirmButtonBackgroundColor) {
+            this.confirmButtonBackgroundColor = confirmButtonBackgroundColor;
+            return this;
+        }
+
+        public Builder setConfirmButtonTextColor(Integer confirmButtonTextColor) {
+            this.confirmButtonTextColor = confirmButtonTextColor;
+            return this;
+        }
+
+        public Builder setNeutralButtonBackgroundColor(Integer neutralButtonBackgroundColor) {
+            this.neutralButtonBackgroundColor = neutralButtonBackgroundColor;
+            return this;
+        }
+
+        public Builder setNeutralButtonTextColor(Integer neutralButtonTextColor) {
+            this.neutralButtonTextColor = neutralButtonTextColor;
+            return this;
+        }
+
+        public Builder setCancelButtonBackgroundColor(Integer cancelButtonBackgroundColor) {
+            this.cancelButtonBackgroundColor = cancelButtonBackgroundColor;
+            return this;
+        }
+
+        public Builder setCancelButtonTextColor(Integer cancelButtonTextColor) {
+            this.cancelButtonTextColor = cancelButtonTextColor;
+            return this;
+        }
+
+        public Builder setCancelClickListener(OnSweetClickListener cancelClickListener) {
+            this.cancelClickListener = cancelClickListener;
+            return this;
+        }
+
+        public Builder setConfirmClickListener(OnSweetClickListener confirmClickListener) {
+            this.confirmClickListener = confirmClickListener;
+            return this;
+        }
+
+        public Builder setNeutralClickListener(OnSweetClickListener neutralClickListener) {
+            this.neutralClickListener = neutralClickListener;
+            return this;
+        }
+
+        public Builder setCloseFromCancel(boolean closeFromCancel) {
+            this.closeFromCancel = closeFromCancel;
+            return this;
+        }
+
+        public Builder setHideKeyBoardOnDismiss(boolean hideKeyBoardOnDismiss) {
+            this.hideKeyBoardOnDismiss = hideKeyBoardOnDismiss;
+            return this;
+        }
+
+        public Builder setContentTextSize(int contentTextSize) {
+            this.contentTextSize = contentTextSize;
+            return this;
+        }
+
+        public Builder setCustomView(View customView) {
+            this.customView = customView;
+            return this;
+        }
+
+        public Builder setStrokeWidth(float strokeWidth) {
+            this.strokeWidth = strokeWidth;
+            return this;
+        }
+
+        public SweetAlertDialog build() {
+            return new SweetAlertDialog(this);
         }
     }
 }

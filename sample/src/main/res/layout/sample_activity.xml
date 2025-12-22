@@ -45,7 +45,11 @@
 
             <Button
                 android:id="@+id/progress_dialog"
-                style="@style/dialog_blue_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
                 android:layout_margin="10dp"
                 android:text="Try me!" />
 
@@ -56,7 +60,11 @@
 
             <Button
                 android:id="@+id/basic_test"
-                style="@style/dialog_blue_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
                 android:layout_margin="10dp"
                 android:text="Try me!" />
 
@@ -67,7 +75,11 @@
 
             <Button
                 android:id="@+id/basic_test_without_buttons"
-                style="@style/dialog_blue_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
                 android:layout_margin="10dp"
                 android:text="Try me!" />
 
@@ -78,7 +90,11 @@
 
             <Button
                 android:id="@+id/under_text_test"
-                style="@style/dialog_blue_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
                 android:layout_margin="10dp"
                 android:text="Try me!" />
 
@@ -88,7 +104,11 @@
 
             <Button
                 android:id="@+id/styled_text_and_stroke"
-                style="@style/dialog_blue_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
                 android:layout_margin="10dp"
                 android:text="Try me!" />
 
@@ -99,7 +119,11 @@
 
             <Button
                 android:id="@+id/error_text_test"
-                style="@style/dialog_blue_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
                 android:layout_margin="10dp"
                 android:text="Try me!" />
 
@@ -110,7 +134,11 @@
 
             <Button
                 android:id="@+id/success_text_test"
-                style="@style/dialog_blue_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
                 android:layout_margin="10dp"
                 android:text="Try me!" />
 
@@ -122,7 +150,11 @@
 
             <Button
                 android:id="@+id/warning_confirm_test"
-                style="@style/dialog_blue_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
                 android:layout_margin="10dp"
                 android:text="Try me!" />
 
@@ -133,7 +165,11 @@
 
             <Button
                 android:id="@+id/warning_cancel_test"
-                style="@style/dialog_blue_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
                 android:layout_margin="10dp"
                 android:text="Try me!" />
 
@@ -144,7 +180,11 @@
 
             <Button
                 android:id="@+id/custom_img_test"
-                style="@style/dialog_blue_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
                 android:layout_margin="10dp"
                 android:text="Try me!" />
 
@@ -155,7 +195,11 @@
 
             <Button
                 android:id="@+id/neutral_btn_test"
-                style="@style/dialog_blue_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
                 android:layout_margin="10dp"
                 android:text="Try me!" />
 
@@ -166,7 +210,11 @@
 
             <Button
                 android:id="@+id/disabled_btn_test"
-                style="@style/dialog_blue_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
                 android:layout_margin="10dp"
                 android:text="Try me!" />
 
@@ -177,7 +225,11 @@
 
             <Button
                 android:id="@+id/custom_view_test"
-                style="@style/dialog_blue_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
                 android:layout_margin="10dp"
                 android:text="Try me!" />
 
@@ -188,7 +240,11 @@
 
             <Button
                 android:id="@+id/custom_btn_colors_test"
-                style="@style/dialog_blue_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
                 android:layout_margin="10dp"
                 android:text="Try me!" />
 

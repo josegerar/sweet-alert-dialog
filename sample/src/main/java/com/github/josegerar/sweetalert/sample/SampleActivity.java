@@ -1,7 +1,6 @@
 package com.github.josegerar.sweetalert.sample;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -38,105 +37,104 @@ public class SampleActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.basic_test) {
-            SweetAlertDialog sd = new SweetAlertDialog(this);
+            SweetAlertDialog sd = new SweetAlertDialog.Builder(this)
+                    .setContentText("Here's a message")
+                    .build();
             sd.setCancelable(true);
             sd.setCanceledOnTouchOutside(true);
-            sd.setContentText("Here's a message");
             sd.show();
         } else if (id == R.id.basic_test_without_buttons) {
-            SweetAlertDialog sd2 = new SweetAlertDialog(this);
+            SweetAlertDialog sd2 = new SweetAlertDialog.Builder(this)
+                    .setContentText("Here's a message")
+                    .hideConfirmButton(true)
+                    .build();
             sd2.setCancelable(true);
             sd2.setCanceledOnTouchOutside(true);
-            sd2.setContentText("Here's a message");
-            sd2.hideConfirmButton();
             sd2.show();
         } else if (id == R.id.under_text_test) {
-            new SweetAlertDialog(this)
+            new SweetAlertDialog.Builder(this)
                     .setTitleText("Title")
                     .setContentText("It's pretty, isn't it?")
+                    .build()
                     .show();
         } else if (id == R.id.styled_text_and_stroke) {
-            new SweetAlertDialog(this)
-                    .setTitleText("<font color='red'>Red</font> title")
-                    .setContentText("Big <font color='green'>green </font><b><i> bold</i></b>")
+            new SweetAlertDialog.Builder(this)
+                    .setTitleText("<font color='red'>Red</font> title", true)
+                    .setContentText("Big <font color='green'>green </font><b><i> bold</i></b>", true)
                     .setContentTextSize(21)
                     .setStrokeWidth(2)
+                    .build()
                     .show();
         } else if (id == R.id.error_text_test) {
-            new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+            new SweetAlertDialog.Builder(this)
+                    .setAlertType(SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("Oops...")
                     .setContentText("Something went wrong!")
+                    .build()
                     .show();
         } else if (id == R.id.success_text_test) {
-            new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+            new SweetAlertDialog.Builder(this)
+                    .setAlertType(SweetAlertDialog.SUCCESS_TYPE)
                     .setTitleText("Good job!")
                     .setContentText("You clicked the button!")
+                    .build()
                     .show();
         } else if (id == R.id.warning_confirm_test) {
-            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            new SweetAlertDialog.Builder(this)
+                    .setAlertType(SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("Are you sure?")
                     .setContentText("Won't be able to recover this file!")
-                    .setCancelButton("Yes, delete it!", new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            // reuse previous dialog instance
-                            sweetAlertDialog.setTitleText("Deleted!")
-                                    .setContentText("Your imaginary file has been deleted!")
-                                    .setConfirmClickListener(null)
-                                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                        }
+                    .setCancelText("Yes, delete it!")
+                    .setCancelClickListener(sweetAlertDialog -> {
+                        // reuse previous dialog instance
+                        sweetAlertDialog.setTitleText("Deleted!")
+                                .setContentText("Your imaginary file has been deleted!")
+                                .setConfirmClickListener(null)
+                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                     })
+                    .showCancelButton(true)
+                    .build()
                     .show();
         } else if (id == R.id.warning_cancel_test) {
-            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+            new SweetAlertDialog.Builder(this)
+                    .setAlertType(SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("Are you sure?")
                     .setContentText("Won't be able to recover this file!")
                     .setCancelText("No, cancel pls!")
                     .setConfirmText("Yes, delete it!")
                     .showCancelButton(true)
-                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            // reuse previous dialog instance, keep widget user state, reset them if you need
-                            sDialog.setTitleText("Cancelled!")
-                                    .setContentText("Your imaginary file is safe :)")
-                                    .setConfirmText("OK")
-                                    .showCancelButton(false)
-                                    .setCancelClickListener(null)
-                                    .setConfirmClickListener(null)
-                                    .changeAlertType(SweetAlertDialog.ERROR_TYPE);
-
-                            // or you can new a SweetAlertDialog to show
-                               /* sDialog.dismiss();
-                                new SweetAlertDialog(SampleActivity.this, SweetAlertDialog.ERROR_TYPE)
-                                        .setTitleText("Cancelled!")
-                                        .setContentText("Your imaginary file is safe :)")
-                                        .setConfirmText("OK")
-                                        .show();*/
-                        }
+                    .setCancelClickListener(sDialog -> {
+                        // reuse previous dialog instance, keep widget user state, reset them if you need
+                        sDialog.setTitleText("Cancelled!")
+                                .setContentText("Your imaginary file is safe :)")
+                                .setConfirmText("OK")
+                                .showCancelButton(false)
+                                .setCancelClickListener(null)
+                                .setConfirmClickListener(null)
+                                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
                     })
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            sDialog.setTitleText("Deleted!")
-                                    .setContentText("Your imaginary file has been deleted!")
-                                    .setConfirmText("OK")
-                                    .showCancelButton(false)
-                                    .setCancelClickListener(null)
-                                    .setConfirmClickListener(null)
-                                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                        }
-                    })
+                    .setConfirmClickListener(sDialog -> sDialog.setTitleText("Deleted!")
+                            .setContentText("Your imaginary file has been deleted!")
+                            .setConfirmText("OK")
+                            .showCancelButton(false)
+                            .setCancelClickListener(null)
+                            .setConfirmClickListener(null)
+                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE))
+                    .build()
                     .show();
         } else if (id == R.id.custom_img_test) {
-            new SweetAlertDialog(this, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+            new SweetAlertDialog.Builder(this)
+                    .setAlertType(SweetAlertDialog.CUSTOM_IMAGE_TYPE)
                     .setTitleText("Sweet!")
                     .setContentText("Here's a custom image.")
-                    .setCustomImage(R.drawable.custom_img)
+                    .setCustomImage(getResources().getDrawable(R.drawable.custom_img))
+                    .build()
                     .show();
         } else if (id == R.id.progress_dialog) {
-            final SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
-                    .setTitleText("Loading");
+            final SweetAlertDialog pDialog = new SweetAlertDialog.Builder(this)
+                    .setAlertType(SweetAlertDialog.PROGRESS_TYPE)
+                    .setTitleText("Loading")
+                    .build();
             pDialog.show();
             pDialog.setCancelable(false);
             new CountDownTimer(800 * 7, 800) {
@@ -176,27 +174,24 @@ public class SampleActivity extends Activity implements View.OnClickListener {
                 }
             }.start();
         } else if (id == R.id.neutral_btn_test) {
-            new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+            new SweetAlertDialog.Builder(this)
                     .setTitleText("Title")
-                    .setContentText("Three buttons dialog")
+                    .setContentText("Three buttons dialog \n with neutral button")
                     .setConfirmText("Confirm")
                     .setCancelText("Cancel")
                     .setNeutralText("Neutral")
+                    .build()
                     .show();
         } else if (id == R.id.disabled_btn_test) {
-            final SweetAlertDialog disabledBtnDialog = new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+            final SweetAlertDialog disabledBtnDialog = new SweetAlertDialog.Builder(this)
                     .setTitleText("Title")
                     .setContentText("Disabled button dialog")
                     .setConfirmText("OK")
                     .setCancelText("Cancel")
-                    .setNeutralText("Neutral");
+                    .setNeutralText("Neutral")
+                    .build();
 
-            disabledBtnDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface dialog) {
-                    disabledBtnDialog.getButton(SweetAlertDialog.BUTTON_CONFIRM).setEnabled(false);
-                }
-            });
+            disabledBtnDialog.setOnShowListener(dialog -> disabledBtnDialog.getButton(SweetAlertDialog.BUTTON_CONFIRM).setEnabled(false));
             disabledBtnDialog.show();
         } else if (id == R.id.dark_style) {
             if (((CheckBox) v).isChecked()) {
@@ -221,21 +216,22 @@ public class SampleActivity extends Activity implements View.OnClickListener {
             linearLayout.addView(editText);
             linearLayout.addView(checkBox);
 
-            SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+            new SweetAlertDialog.Builder(this)
                     .setTitleText("Custom view")
-                    .hideConfirmButton();
-
-            dialog.setCustomView(linearLayout);
-            dialog.show();
+                    .setCustomView(linearLayout)
+                    .hideConfirmButton(true)
+                    .build()
+                    .show();
         } else if (id == R.id.custom_btn_colors_test) {
-            new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+            new SweetAlertDialog.Builder(this)
                     .setTitleText("Custom view")
-                    .setCancelButton("red", null)
+                    .setCancelText("red")
                     .setCancelButtonBackgroundColor(Color.RED)
-                    .setNeutralButton("cyan", null)
+                    .setNeutralText("cyan")
                     .setNeutralButtonBackgroundColor(Color.CYAN)
-                    .setConfirmButton("blue", null)
+                    .setConfirmText("blue")
                     .setConfirmButtonBackgroundColor(Color.BLUE)
+                    .build()
                     .show();
         }
     }
