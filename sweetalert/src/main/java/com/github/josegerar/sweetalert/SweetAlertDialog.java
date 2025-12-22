@@ -33,13 +33,13 @@ import java.util.List;
 
 public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     private View mDialogView;
-    private AnimationSet mModalInAnim;
-    private AnimationSet mModalOutAnim;
-    private Animation mOverlayOutAnim;
-    private Animation mErrorInAnim;
-    private AnimationSet mErrorXInAnim;
-    private AnimationSet mSuccessLayoutAnimSet;
-    private Animation mSuccessBowAnim;
+    private final AnimationSet mModalInAnim;
+    private final AnimationSet mModalOutAnim;
+    private final Animation mOverlayOutAnim;
+    private final Animation mErrorInAnim;
+    private final AnimationSet mErrorXInAnim;
+    private final AnimationSet mSuccessLayoutAnimSet;
+    private final Animation mSuccessBowAnim;
     private TextView mTitleTextView;
     private TextView mContentTextView;
     private FrameLayout mCustomViewContainer;
@@ -72,7 +72,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     private Integer mNeutralButtonTextColor;
     private Integer mCancelButtonBackgroundColor;
     private Integer mCancelButtonTextColor;
-    private ProgressHelper mProgressHelper;
+    private final ProgressHelper mProgressHelper;
     private FrameLayout mWarningFrame;
     private OnSweetClickListener mCancelClickListener;
     private OnSweetClickListener mConfirmClickListener;
@@ -99,6 +99,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     private float strokeWidth = 0;
     private boolean titleTextHtml = false;
     private boolean contentTextHtml = false;
+    private boolean mCancelable = true;
 
 
     public SweetAlertDialog hideConfirmButton() {
@@ -207,6 +208,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         this.strokeWidth = builder.strokeWidth;
         this.titleTextHtml = builder.titleTextHtml;
         this.contentTextHtml = builder.contentTextHtml;
+        mCancelable = builder.mCancelable;
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -244,6 +246,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         setCancelText(mCancelText);
         setConfirmText(mConfirmText);
         setNeutralText(mNeutralText);
+        setCancelable(mCancelable);
         applyStroke();
         setConfirmButtonBackgroundColor(mConfirmButtonBackgroundColor);
         setConfirmButtonTextColor(mConfirmButtonTextColor);
@@ -788,6 +791,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         private float strokeWidth = 0;
         private boolean titleTextHtml = false;
         private boolean contentTextHtml = false;
+        private boolean mCancelable = true;
 
 
         public Builder(Context context) {
@@ -918,6 +922,11 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
 
         public Builder setStrokeWidth(float strokeWidth) {
             this.strokeWidth = strokeWidth;
+            return this;
+        }
+
+        public Builder setCancelable(boolean cancelable) {
+            this.mCancelable = cancelable;
             return this;
         }
 
