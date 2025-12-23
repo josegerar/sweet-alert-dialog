@@ -116,7 +116,7 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <com.pnikosis.materialishprogress.ProgressWheel
+            <com.github.josegerar.sweetalert.ProgressWheel
                 android:id="@+id/progressWheel"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
@@ -174,10 +174,7 @@
             android:gravity="center"
             android:visibility="gone"
             tools:text="message \n message \n message"
-            tools:visibility="visible">
-
-            <!---->
-        </FrameLayout>
+            tools:visibility="visible"/>
 
         <LinearLayout
             android:id="@+id/buttons_container"

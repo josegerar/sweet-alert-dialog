@@ -1,7 +1,6 @@
 package com.github.josegerar.sweetalert;
 
 import android.content.Context;
-import com.pnikosis.materialishprogress.ProgressWheel;
 
 public class ProgressHelper {
     private ProgressWheel mProgressWheel;

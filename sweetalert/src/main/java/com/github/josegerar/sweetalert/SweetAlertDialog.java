@@ -9,14 +9,12 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.Transformation;
@@ -26,10 +24,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.pnikosis.materialishprogress.ProgressWheel;
-
-import java.util.List;
 
 public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     private View mDialogView;
@@ -46,7 +40,6 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     private View mCustomView;
     private String mTitleText;
     private String mContentText;
-    private boolean mShowCancel;
     private boolean mShowContent;
     private String mCancelText;
     private String mConfirmText;
@@ -63,7 +56,6 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     private ImageView mCustomImage;
     private LinearLayout mButtonsContainer;
     private Button mConfirmButton;
-    private boolean mHideConfirmButton = false;
     private Button mCancelButton;
     private Button mNeutralButton;
     private Integer mConfirmButtonBackgroundColor;
@@ -101,12 +93,6 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     private boolean contentTextHtml = false;
     private boolean mCancelable = true;
 
-
-    public SweetAlertDialog hideConfirmButton() {
-        this.mHideConfirmButton = true;
-        return this;
-    }
-
     public interface OnSweetClickListener {
         void onClick(SweetAlertDialog sweetAlertDialog);
     }
@@ -125,18 +111,6 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         mErrorXInAnim = (AnimationSet) OptAnimationLoader.loadAnimation(getContext(), R.anim.error_x_in);
         // 2.3.x system don't support alpha-animation on layer-list drawable
         // remove it from animation set
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
-            List<Animation> childAnims = mErrorXInAnim.getAnimations();
-            int idx = 0;
-            for (; idx < childAnims.size(); idx++) {
-                if (childAnims.get(idx) instanceof AlphaAnimation) {
-                    break;
-                }
-            }
-            if (idx < childAnims.size()) {
-                childAnims.remove(idx);
-            }
-        }
         mSuccessBowAnim = OptAnimationLoader.loadAnimation(getContext(), R.anim.success_bow_roate);
         mSuccessLayoutAnimSet = (AnimationSet) OptAnimationLoader.loadAnimation(getContext(), R.anim.success_mask_layout);
         mModalInAnim = (AnimationSet) OptAnimationLoader.loadAnimation(getContext(), R.anim.modal_in);
@@ -186,12 +160,10 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         this(builder.context, builder.alertType);
         this.mTitleText = builder.titleText;
         this.mContentText = builder.contentText;
-        this.mShowCancel = builder.showCancel;
         this.mCancelText = builder.cancelText;
         this.mConfirmText = builder.confirmText;
         this.mNeutralText = builder.neutralText;
         this.mCustomImgDrawable = builder.customImgDrawable;
-        this.mHideConfirmButton = builder.hideConfirmButton;
         this.mConfirmButtonBackgroundColor = builder.confirmButtonBackgroundColor;
         this.mConfirmButtonTextColor = builder.confirmButtonTextColor;
         this.mNeutralButtonBackgroundColor = builder.neutralButtonBackgroundColor;
@@ -264,7 +236,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         mWarningFrame.setVisibility(View.GONE);
         mProgressFrame.setVisibility(View.GONE);
 
-        mConfirmButton.setVisibility(mHideConfirmButton ? View.GONE : View.VISIBLE);
+        mConfirmButton.setVisibility(hideConfirmButton() ? View.GONE : View.VISIBLE);
 
         adjustButtonContainerVisibility();
 
@@ -274,6 +246,10 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         mSuccessTick.clearAnimation();
         mSuccessLeftMask.clearAnimation();
         mSuccessRightMask.clearAnimation();
+    }
+
+    private boolean hideConfirmButton(){
+        return mConfirmText == null || mConfirmText.isEmpty();
     }
 
     /**
@@ -310,7 +286,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
                 // restore all of views state before switching alert type
                 restore();
             }
-            mConfirmButton.setVisibility(mHideConfirmButton ? View.GONE : View.VISIBLE);
+            mConfirmButton.setVisibility(hideConfirmButton() ? View.GONE : View.VISIBLE);
             switch (mAlertType) {
                 case ERROR_TYPE:
                     mErrorFrame.setVisibility(View.VISIBLE);
@@ -445,13 +421,12 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     }
 
     public boolean isShowCancelButton() {
-        return mShowCancel;
+        return mCancelText == null || mCancelText.isEmpty();
     }
 
     public SweetAlertDialog showCancelButton(boolean isShow) {
-        mShowCancel = isShow;
         if (mCancelButton != null) {
-            mCancelButton.setVisibility(mShowCancel ? View.VISIBLE : View.GONE);
+            mCancelButton.setVisibility(isShow ? View.VISIBLE : View.GONE);
         }
         return this;
     }
@@ -769,12 +744,10 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         private int alertType = NORMAL_TYPE;
         private String titleText;
         private String contentText;
-        private boolean showCancel;
         private String cancelText;
         private String confirmText;
         private String neutralText;
         private Drawable customImgDrawable;
-        private boolean hideConfirmButton = false;
         private Integer confirmButtonBackgroundColor;
         private Integer confirmButtonTextColor;
         private Integer neutralButtonBackgroundColor;
@@ -792,7 +765,6 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         private boolean titleTextHtml = false;
         private boolean contentTextHtml = false;
         private boolean mCancelable = true;
-
 
         public Builder(Context context) {
             this.context = context;
@@ -825,11 +797,6 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
             return this;
         }
 
-        public Builder showCancelButton(boolean showCancel) {
-            this.showCancel = showCancel;
-            return this;
-        }
-
         public Builder setCancelText(String cancelText) {
             this.cancelText = cancelText;
             return this;
@@ -847,11 +814,6 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
 
         public Builder setCustomImage(Drawable customImgDrawable) {
             this.customImgDrawable = customImgDrawable;
-            return this;
-        }
-
-        public Builder hideConfirmButton(boolean hideConfirmButton) {
-            this.hideConfirmButton = hideConfirmButton;
             return this;
         }
 

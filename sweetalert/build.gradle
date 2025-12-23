@@ -23,7 +23,6 @@ android {
 }
 
 dependencies {
-    implementation 'com.pnikosis:materialish-progress:1.7'
 }
 
 afterEvaluate {

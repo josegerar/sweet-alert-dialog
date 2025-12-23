@@ -9,8 +9,16 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import androidx.activity.EdgeToEdge;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+
 import com.github.josegerar.sweetalert.Constants;
 import com.github.josegerar.sweetalert.SweetAlertDialog;
+
+import org.jspecify.annotations.NonNull;
 
 public class SampleActivity extends Activity implements View.OnClickListener {
 
@@ -19,8 +27,16 @@ public class SampleActivity extends Activity implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowCompat.enableEdgeToEdge(getWindow());
         setContentView(R.layout.sample_activity);
-
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), new OnApplyWindowInsetsListener() {
+            @Override
+            public @NonNull WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                var bars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
+                return insets;
+            }
+        });
         int[] btnIds = {
                 R.id.basic_test, R.id.styled_text_and_stroke, R.id.basic_test_without_buttons, R.id.under_text_test,
                 R.id.error_text_test, R.id.success_text_test, R.id.warning_confirm_test, R.id.warning_cancel_test,
@@ -39,14 +55,13 @@ public class SampleActivity extends Activity implements View.OnClickListener {
         if (id == R.id.basic_test) {
             SweetAlertDialog sd = new SweetAlertDialog.Builder(this)
                     .setContentText("Here's a message")
+                    .setCancelable(true)
                     .build();
-            sd.setCancelable(true);
             sd.setCanceledOnTouchOutside(true);
             sd.show();
         } else if (id == R.id.basic_test_without_buttons) {
             SweetAlertDialog sd2 = new SweetAlertDialog.Builder(this)
                     .setContentText("Here's a message")
-                    .hideConfirmButton(true)
                     .build();
             sd2.setCancelable(true);
             sd2.setCanceledOnTouchOutside(true);
@@ -55,7 +70,6 @@ public class SampleActivity extends Activity implements View.OnClickListener {
             new SweetAlertDialog.Builder(this)
                     .setTitleText("Title")
                     .setContentText("It's pretty, isn't it?")
-                    .build()
                     .show();
         } else if (id == R.id.styled_text_and_stroke) {
             new SweetAlertDialog.Builder(this)
@@ -63,27 +77,94 @@ public class SampleActivity extends Activity implements View.OnClickListener {
                     .setContentText("Big <font color='green'>green </font><b><i> bold</i></b>", true)
                     .setContentTextSize(21)
                     .setStrokeWidth(2)
-                    .build()
                     .show();
         } else if (id == R.id.error_text_test) {
             new SweetAlertDialog.Builder(this)
                     .setAlertType(SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("Oops...")
                     .setContentText("Something went wrong!")
-                    .build()
                     .show();
         } else if (id == R.id.success_text_test) {
             new SweetAlertDialog.Builder(this)
                     .setAlertType(SweetAlertDialog.SUCCESS_TYPE)
                     .setTitleText("Good job!")
                     .setContentText("You clicked the button!")
-                    .build()
                     .show();
         } else if (id == R.id.warning_confirm_test) {
             new SweetAlertDialog.Builder(this)
                     .setAlertType(SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("Are you sure?")
-                    .setContentText("Won't be able to recover this file!")
+                    .setContentText("""
+                            > Task :sample:preBuild UP-TO-DATE
+                            > Task :sweetalert:preBuild UP-TO-DATE
+                            > Task :sample:preDebugBuild UP-TO-DATE
+                            > Task :sweetalert:preDebugBuild UP-TO-DATE
+                            > Task :sample:mergeDebugNativeDebugMetadata NO-SOURCE
+                            > Task :sweetalert:writeDebugAarMetadata UP-TO-DATE
+                            > Task :sample:javaPreCompileDebug UP-TO-DATE
+                            > Task :sweetalert:processDebugNavigationResources
+                            > Task :sweetalert:generateDebugResValues UP-TO-DATE
+                            > Task :sweetalert:generateDebugResources
+                            > Task :sweetalert:packageDebugResources
+                            > Task :sweetalert:extractDeepLinksDebug UP-TO-DATE
+                            > Task :sweetalert:processDebugManifest UP-TO-DATE
+                            > Task :sweetalert:compileDebugLibraryResources
+                            > Task :sample:checkDebugAarMetadata UP-TO-DATE
+                            > Task :sweetalert:javaPreCompileDebug UP-TO-DATE
+                            > Task :sweetalert:mergeDebugShaders UP-TO-DATE
+                            > Task :sweetalert:compileDebugShaders NO-SOURCE
+                            > Task :sweetalert:generateDebugAssets UP-TO-DATE
+                            > Task :sample:processDebugNavigationResources UP-TO-DATE
+                            > Task :sweetalert:mergeDebugAssets UP-TO-DATE
+                            > Task :sample:compileDebugNavigationResources UP-TO-DATE
+                            > Task :sample:generateDebugResValues UP-TO-DATE
+                            > Task :sweetalert:processDebugJavaRes NO-SOURCE
+                            > Task :sweetalert:mergeDebugJniLibFolders UP-TO-DATE
+                            > Task :sweetalert:mergeDebugNativeLibs NO-SOURCE
+                            > Task :sweetalert:copyDebugJniLibsProjectOnly UP-TO-DATE
+                            > Task :sample:mapDebugSourceSetPaths
+                            > Task :sweetalert:parseDebugLocalResources
+                            > Task :sample:generateDebugResources UP-TO-DATE
+                            > Task :sweetalert:generateDebugRFile UP-TO-DATE
+                            > Task :sweetalert:compileDebugJavaWithJavac UP-TO-DATE
+                            > Task :sweetalert:bundleLibCompileToJarDebug UP-TO-DATE
+                            > Task :sweetalert:bundleLibRuntimeToJarDebug UP-TO-DATE
+                            > Task :sweetalert:bundleLibRuntimeToDirDebug UP-TO-DATE
+                            > Task :sample:mergeDebugResources
+                            > Task :sample:packageDebugResources UP-TO-DATE
+                            > Task :sample:parseDebugLocalResources UP-TO-DATE
+                            > Task :sample:createDebugCompatibleScreenManifests UP-TO-DATE
+                            > Task :sample:extractDeepLinksDebug UP-TO-DATE
+                            > Task :sample:processDebugMainManifest UP-TO-DATE
+                            > Task :sample:processDebugManifest UP-TO-DATE
+                            > Task :sample:processDebugManifestForPackage UP-TO-DATE
+                            > Task :sample:mergeDebugShaders UP-TO-DATE
+                            > Task :sample:compileDebugShaders NO-SOURCE
+                            > Task :sample:generateDebugAssets UP-TO-DATE
+                            > Task :sample:mergeDebugAssets UP-TO-DATE
+                            > Task :sample:compressDebugAssets UP-TO-DATE
+                            > Task :sample:desugarDebugFileDependencies UP-TO-DATE
+                            > Task :sample:processDebugJavaRes NO-SOURCE
+                            > Task :sample:mergeDebugJavaResource UP-TO-DATE
+                            > Task :sample:checkDebugDuplicateClasses UP-TO-DATE
+                            > Task :sample:mergeExtDexDebug UP-TO-DATE
+                            > Task :sample:mergeLibDexDebug UP-TO-DATE
+                            > Task :sample:mergeDebugJniLibFolders UP-TO-DATE
+                            > Task :sample:mergeDebugNativeLibs NO-SOURCE
+                            > Task :sample:stripDebugDebugSymbols NO-SOURCE
+                            > Task :sample:validateSigningDebug UP-TO-DATE
+                            > Task :sample:writeDebugAppMetadata UP-TO-DATE
+                            > Task :sample:writeDebugSigningConfigVersions UP-TO-DATE
+                            > Task :sample:processDebugResources
+                            > Task :sample:compileDebugJavaWithJavac UP-TO-DATE
+                            > Task :sample:dexBuilderDebug UP-TO-DATE
+                            > Task :sample:mergeDebugGlobalSynthetics UP-TO-DATE
+                            > Task :sample:mergeProjectDexDebug UP-TO-DATE
+                            > Task :sample:packageDebug
+                            > Task :sample:createDebugApkListingFileRedirect UP-TO-DATE
+                            > Task :sample:assembleDebug
+                            
+                            """)
                     .setCancelText("Yes, delete it!")
                     .setCancelClickListener(sweetAlertDialog -> {
                         // reuse previous dialog instance
@@ -92,8 +173,6 @@ public class SampleActivity extends Activity implements View.OnClickListener {
                                 .setConfirmClickListener(null)
                                 .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                     })
-                    .showCancelButton(true)
-                    .build()
                     .show();
         } else if (id == R.id.warning_cancel_test) {
             new SweetAlertDialog.Builder(this)
@@ -102,7 +181,6 @@ public class SampleActivity extends Activity implements View.OnClickListener {
                     .setContentText("Won't be able to recover this file!")
                     .setCancelText("No, cancel pls!")
                     .setConfirmText("Yes, delete it!")
-                    .showCancelButton(true)
                     .setCancelClickListener(sDialog -> {
                         // reuse previous dialog instance, keep widget user state, reset them if you need
                         sDialog.setTitleText("Cancelled!")
@@ -219,7 +297,6 @@ public class SampleActivity extends Activity implements View.OnClickListener {
             new SweetAlertDialog.Builder(this)
                     .setTitleText("Custom view")
                     .setCustomView(linearLayout)
-                    .hideConfirmButton(true)
                     .build()
                     .show();
         } else if (id == R.id.custom_btn_colors_test) {
