@@ -32,7 +32,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.josegerar'
                 artifactId = 'sweetalert'
-                version = '2.0.4'
+                version = '2.0.5'
             }
         }
     }

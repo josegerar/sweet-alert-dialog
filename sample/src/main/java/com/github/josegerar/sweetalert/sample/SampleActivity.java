@@ -9,7 +9,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import androidx.activity.EdgeToEdge;
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
@@ -94,77 +93,7 @@ public class SampleActivity extends Activity implements View.OnClickListener {
             new SweetAlertDialog.Builder(this)
                     .setAlertType(SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("Are you sure?")
-                    .setContentText("""
-                            > Task :sample:preBuild UP-TO-DATE
-                            > Task :sweetalert:preBuild UP-TO-DATE
-                            > Task :sample:preDebugBuild UP-TO-DATE
-                            > Task :sweetalert:preDebugBuild UP-TO-DATE
-                            > Task :sample:mergeDebugNativeDebugMetadata NO-SOURCE
-                            > Task :sweetalert:writeDebugAarMetadata UP-TO-DATE
-                            > Task :sample:javaPreCompileDebug UP-TO-DATE
-                            > Task :sweetalert:processDebugNavigationResources
-                            > Task :sweetalert:generateDebugResValues UP-TO-DATE
-                            > Task :sweetalert:generateDebugResources
-                            > Task :sweetalert:packageDebugResources
-                            > Task :sweetalert:extractDeepLinksDebug UP-TO-DATE
-                            > Task :sweetalert:processDebugManifest UP-TO-DATE
-                            > Task :sweetalert:compileDebugLibraryResources
-                            > Task :sample:checkDebugAarMetadata UP-TO-DATE
-                            > Task :sweetalert:javaPreCompileDebug UP-TO-DATE
-                            > Task :sweetalert:mergeDebugShaders UP-TO-DATE
-                            > Task :sweetalert:compileDebugShaders NO-SOURCE
-                            > Task :sweetalert:generateDebugAssets UP-TO-DATE
-                            > Task :sample:processDebugNavigationResources UP-TO-DATE
-                            > Task :sweetalert:mergeDebugAssets UP-TO-DATE
-                            > Task :sample:compileDebugNavigationResources UP-TO-DATE
-                            > Task :sample:generateDebugResValues UP-TO-DATE
-                            > Task :sweetalert:processDebugJavaRes NO-SOURCE
-                            > Task :sweetalert:mergeDebugJniLibFolders UP-TO-DATE
-                            > Task :sweetalert:mergeDebugNativeLibs NO-SOURCE
-                            > Task :sweetalert:copyDebugJniLibsProjectOnly UP-TO-DATE
-                            > Task :sample:mapDebugSourceSetPaths
-                            > Task :sweetalert:parseDebugLocalResources
-                            > Task :sample:generateDebugResources UP-TO-DATE
-                            > Task :sweetalert:generateDebugRFile UP-TO-DATE
-                            > Task :sweetalert:compileDebugJavaWithJavac UP-TO-DATE
-                            > Task :sweetalert:bundleLibCompileToJarDebug UP-TO-DATE
-                            > Task :sweetalert:bundleLibRuntimeToJarDebug UP-TO-DATE
-                            > Task :sweetalert:bundleLibRuntimeToDirDebug UP-TO-DATE
-                            > Task :sample:mergeDebugResources
-                            > Task :sample:packageDebugResources UP-TO-DATE
-                            > Task :sample:parseDebugLocalResources UP-TO-DATE
-                            > Task :sample:createDebugCompatibleScreenManifests UP-TO-DATE
-                            > Task :sample:extractDeepLinksDebug UP-TO-DATE
-                            > Task :sample:processDebugMainManifest UP-TO-DATE
-                            > Task :sample:processDebugManifest UP-TO-DATE
-                            > Task :sample:processDebugManifestForPackage UP-TO-DATE
-                            > Task :sample:mergeDebugShaders UP-TO-DATE
-                            > Task :sample:compileDebugShaders NO-SOURCE
-                            > Task :sample:generateDebugAssets UP-TO-DATE
-                            > Task :sample:mergeDebugAssets UP-TO-DATE
-                            > Task :sample:compressDebugAssets UP-TO-DATE
-                            > Task :sample:desugarDebugFileDependencies UP-TO-DATE
-                            > Task :sample:processDebugJavaRes NO-SOURCE
-                            > Task :sample:mergeDebugJavaResource UP-TO-DATE
-                            > Task :sample:checkDebugDuplicateClasses UP-TO-DATE
-                            > Task :sample:mergeExtDexDebug UP-TO-DATE
-                            > Task :sample:mergeLibDexDebug UP-TO-DATE
-                            > Task :sample:mergeDebugJniLibFolders UP-TO-DATE
-                            > Task :sample:mergeDebugNativeLibs NO-SOURCE
-                            > Task :sample:stripDebugDebugSymbols NO-SOURCE
-                            > Task :sample:validateSigningDebug UP-TO-DATE
-                            > Task :sample:writeDebugAppMetadata UP-TO-DATE
-                            > Task :sample:writeDebugSigningConfigVersions UP-TO-DATE
-                            > Task :sample:processDebugResources
-                            > Task :sample:compileDebugJavaWithJavac UP-TO-DATE
-                            > Task :sample:dexBuilderDebug UP-TO-DATE
-                            > Task :sample:mergeDebugGlobalSynthetics UP-TO-DATE
-                            > Task :sample:mergeProjectDexDebug UP-TO-DATE
-                            > Task :sample:packageDebug
-                            > Task :sample:createDebugApkListingFileRedirect UP-TO-DATE
-                            > Task :sample:assembleDebug
-                            
-                            """)
+                    .setContentText("Won't be able to recover this file!")
                     .setCancelText("Yes, delete it!")
                     .setCancelClickListener(sweetAlertDialog -> {
                         // reuse previous dialog instance
@@ -198,7 +127,6 @@ public class SampleActivity extends Activity implements View.OnClickListener {
                             .setCancelClickListener(null)
                             .setConfirmClickListener(null)
                             .changeAlertType(SweetAlertDialog.SUCCESS_TYPE))
-                    .build()
                     .show();
         } else if (id == R.id.custom_img_test) {
             new SweetAlertDialog.Builder(this)
@@ -206,7 +134,6 @@ public class SampleActivity extends Activity implements View.OnClickListener {
                     .setTitleText("Sweet!")
                     .setContentText("Here's a custom image.")
                     .setCustomImage(getResources().getDrawable(R.drawable.custom_img))
-                    .build()
                     .show();
         } else if (id == R.id.progress_dialog) {
             final SweetAlertDialog pDialog = new SweetAlertDialog.Builder(this)
@@ -258,7 +185,6 @@ public class SampleActivity extends Activity implements View.OnClickListener {
                     .setConfirmText("Confirm")
                     .setCancelText("Cancel")
                     .setNeutralText("Neutral")
-                    .build()
                     .show();
         } else if (id == R.id.disabled_btn_test) {
             final SweetAlertDialog disabledBtnDialog = new SweetAlertDialog.Builder(this)
@@ -297,7 +223,6 @@ public class SampleActivity extends Activity implements View.OnClickListener {
             new SweetAlertDialog.Builder(this)
                     .setTitleText("Custom view")
                     .setCustomView(linearLayout)
-                    .build()
                     .show();
         } else if (id == R.id.custom_btn_colors_test) {
             new SweetAlertDialog.Builder(this)
@@ -308,7 +233,6 @@ public class SampleActivity extends Activity implements View.OnClickListener {
                     .setNeutralButtonBackgroundColor(Color.CYAN)
                     .setConfirmText("blue")
                     .setConfirmButtonBackgroundColor(Color.BLUE)
-                    .build()
                     .show();
         }
     }
