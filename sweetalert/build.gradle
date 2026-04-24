@@ -31,8 +31,8 @@ afterEvaluate {
             release(MavenPublication){
                 from components.release
                 groupId = 'com.github.josegerar'
-                artifactId = 'sweetalert'
-                version = '2.0.5'
+                artifactId = 'sweet-alert-dialog'
+                version = '2.0.6'
             }
         }
     }
