@@ -2,8 +2,10 @@ Sweet Alert Dialog
 ===================
 SweetAlert for Android, a beautiful and clever alert dialog
 
-#### This is the most advanced and contemporary fork of the apparently dead project 
-**Added:**
+#### This is a fork of [F0RIS/sweet-alert-dialog](https://github.com/F0RIS/sweet-alert-dialog) with additional fixes and features.
+**Improvements:**
+- **Builder Pattern:** New way to initialize and configure dialogs more cleanly.
+- **Large Text & Custom View Support:** Fixed issues where text or custom views would be cut off, overlap, or push buttons off-screen when the content was too large, by implementing a scrollable container.
 - Ability to set custom view
 - More convenient interface to bind listeners (like in AlertDialog)
 - Third neutral button with own listener, colors, methods and etc.
@@ -22,8 +24,7 @@ Some screenshots of the new features:
 <img src="https://user-images.githubusercontent.com/10178982/59605653-eee87d80-9117-11e9-9421-b116536c9388.png" width="30%"/>
 
 #### Known issues:
-- [ ] Bug with buttons height if custom view too big and need scrollview
-- [ ] Buttons can handle only one line strings
+None currently reported for this fork.
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Sweet%20Alert%20Dialog-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1065)
 
@@ -62,10 +63,11 @@ The simplest way to use SweetAlertDialog is to add the library as aar dependency
 
 show material progress
 
-    SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+    SweetAlertDialog pDialog = new SweetAlertDialog.Builder(this, SweetAlertDialog.PROGRESS_TYPE)
+        .setTitleText("Loading")
+        .setCancelable(false)
+        .build();
     pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-    pDialog.setTitleText("Loading");
-    pDialog.setCancelable(false);
     pDialog.show();
 
 ![image](https://github.com/pedant/sweet-alert-dialog/raw/master/play_progress.gif)
@@ -97,27 +99,27 @@ more usages about progress, please see the sample.
 
 A basic message：
 
-    new SweetAlertDialog(this)
+    new SweetAlertDialog.Builder(this)
         .setTitleText("Here's a message!")
         .show();
 
 A title with a text under：
 
-    new SweetAlertDialog(this)
+    new SweetAlertDialog.Builder(this)
         .setTitleText("Here's a message!")
         .setContentText("It's pretty, isn't it?")
         .show();
 
 A error message：
 
-    new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+    new SweetAlertDialog.Builder(this, SweetAlertDialog.ERROR_TYPE)
         .setTitleText("Oops...")
         .setContentText("Something went wrong!")
         .show();
 
 A warning message：
 
-    new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+    new SweetAlertDialog.Builder(this, SweetAlertDialog.WARNING_TYPE)
         .setTitleText("Are you sure?")
         .setContentText("Won't be able to recover this file!")
         .setConfirmText("Yes,delete it!")
@@ -125,14 +127,14 @@ A warning message：
 
 A success message：
 
-    new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+    new SweetAlertDialog.Builder(this, SweetAlertDialog.SUCCESS_TYPE)
         .setTitleText("Good job!")
         .setContentText("You clicked the button!")
         .show();
 
 A message with a custom icon：
 
-    new SweetAlertDialog(this, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+    new SweetAlertDialog.Builder(this, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
         .setTitleText("Sweet!")
         .setContentText("Here's a custom image.")
         .setCustomImage(R.drawable.custom_img)
@@ -141,7 +143,7 @@ A message with a custom icon：
 A message with a custom view：
 
     final EditText editText = new EditText(this);
-    new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+    new SweetAlertDialog.Builder(this, SweetAlertDialog.NORMAL_TYPE)
             .setTitleText("Custom view")
             .setConfirmText("Ok")
             .setCustomView(editText)
@@ -150,11 +152,10 @@ A message with a custom view：
 
 Different ways to bind the listener to button：
 
-    new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+    new SweetAlertDialog.Builder(this, SweetAlertDialog.WARNING_TYPE)
         .setTitleText("Are you sure?")
         .setContentText("Won't be able to recover this file!")
-        .setConfirmText("Yes,delete it!")
-        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+        .setConfirmButton("Yes,delete it!", new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sDialog) {
                 sDialog.dismissWithAnimation();
@@ -171,11 +172,12 @@ Different ways to bind the listener to button：
 
 Disable button
 
-    final SweetAlertDialog disabledBtnDialog = new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+    final SweetAlertDialog disabledBtnDialog = new SweetAlertDialog.Builder(this, SweetAlertDialog.NORMAL_TYPE)
             .setTitleText("Title")
             .setContentText("Disabled button dialog")
             .setConfirmText("Confirm")
             .setCancelText("Cancel")
+            .show();
 
     disabledBtnDialog.setOnShowListener(new DialogInterface.OnShowListener() {
         @Override
@@ -188,11 +190,10 @@ Disable button
 
 **Change** the dialog style upon confirming：
 
-    new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+    new SweetAlertDialog.Builder(this, SweetAlertDialog.WARNING_TYPE)
         .setTitleText("Are you sure?")
         .setContentText("Won't be able to recover this file!")
-        .setConfirmText("Yes,delete it!")
-        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+        .setConfirmButton("Yes,delete it!", new SweetAlertDialog.OnSweetClickListener() {
             @Override
             public void onClick(SweetAlertDialog sDialog) {
                 sDialog
