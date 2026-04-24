@@ -6,6 +6,7 @@ SweetAlert for Android, a beautiful and clever alert dialog
 **Improvements:**
 - **Builder Pattern:** New way to initialize and configure dialogs more cleanly.
 - **Large Text & Custom View Support:** Fixed issues where text or custom views would be cut off, overlap, or push buttons off-screen when the content was too large, by implementing a scrollable container.
+- **Automatic Dark Mode:** Ability to automatically detect and apply dark mode based on system settings.
 - Ability to set custom view
 - More convenient interface to bind listeners (like in AlertDialog)
 - Third neutral button with own listener, colors, methods and etc.
@@ -45,7 +46,7 @@ The simplest way to use SweetAlertDialog is to add the library as aar dependency
     <dependency>
       <groupId>com.github.josegerar</groupId>
       <artifactId>sweet-alert-dialog</artifactId>
-      <version>2.0.6</version>
+      <version>2.0.7</version>
       <type>aar</type>
     </dependency>
 
@@ -56,7 +57,7 @@ The simplest way to use SweetAlertDialog is to add the library as aar dependency
     }
 
     dependencies {
-        implementation 'com.github.josegerar:sweet-alert-dialog:2.0.6'
+        implementation 'com.github.josegerar:sweet-alert-dialog:2.0.7'
     }
 
 ## Usage
@@ -204,6 +205,25 @@ Disable button
                     .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
             }
         })
+        .show();
+
+More usages about dark mode:
+
+    // Automatic dark mode (enabled by default in Builder)
+    new SweetAlertDialog.Builder(this)
+        .setTitleText("Auto Dark Mode")
+        .show();
+
+    // Force Dark Mode
+    new SweetAlertDialog.Builder(this)
+        .setTitleText("Forced Dark")
+        .setDarkStyle(true)
+        .show();
+
+    // Force Light Mode (even if system is in dark mode)
+    new SweetAlertDialog.Builder(this)
+        .setTitleText("Forced Light")
+        .setAutoDarkMode(false)
         .show();
 
 [more android tech shares: pedant.cn](http://www.pedant.cn)

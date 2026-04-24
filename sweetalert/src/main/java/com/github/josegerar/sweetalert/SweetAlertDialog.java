@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -83,6 +84,11 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
 
     public static boolean DARK_STYLE = false;
 
+    public static boolean isSystemDarkMode(Context context) {
+        int nightModeFlags = context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        return nightModeFlags == Configuration.UI_MODE_NIGHT_YES;
+    }
+
     //aliases
     public final static int BUTTON_CONFIRM = DialogInterface.BUTTON_POSITIVE;
     public final static int BUTTON_CANCEL = DialogInterface.BUTTON_NEGATIVE;
@@ -97,8 +103,8 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         void onClick(SweetAlertDialog sweetAlertDialog);
     }
 
-    private SweetAlertDialog(Context context, int alertType) {
-        super(context, DARK_STYLE ? R.style.alert_dialog_dark : R.style.alert_dialog_light);
+    private SweetAlertDialog(Context context, int alertType, int resId) {
+        super(context, resId);
         setCancelable(true);
         setCanceledOnTouchOutside(true); //TODO was false
 
@@ -157,7 +163,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     }
 
     private SweetAlertDialog(Builder builder) {
-        this(builder.context, builder.alertType);
+        this(builder.context, builder.alertType, builder.getThemeResId());
         this.mTitleText = builder.titleText;
         this.mContentText = builder.contentText;
         this.mCancelText = builder.cancelText;
@@ -765,6 +771,8 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         private boolean titleTextHtml = false;
         private boolean contentTextHtml = false;
         private boolean mCancelable = true;
+        private boolean darkStyle = SweetAlertDialog.DARK_STYLE;
+        private boolean autoDarkMode = true;
 
         public Builder(Context context) {
             this(context, NORMAL_TYPE);
@@ -925,6 +933,23 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         public Builder setCancelable(boolean cancelable) {
             this.mCancelable = cancelable;
             return this;
+        }
+
+        public Builder setDarkStyle(boolean dark) {
+            this.darkStyle = dark;
+            return this;
+        }
+
+        public Builder setAutoDarkMode(boolean auto) {
+            this.autoDarkMode = auto;
+            return this;
+        }
+
+        private int getThemeResId() {
+            if (darkStyle || (autoDarkMode && isSystemDarkMode(context))) {
+                return R.style.alert_dialog_dark;
+            }
+            return R.style.alert_dialog_light;
         }
 
         public SweetAlertDialog build() {
