@@ -741,7 +741,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
 
     public static class Builder {
         private final Context context;
-        private int alertType = NORMAL_TYPE;
+        private int alertType;
         private String titleText;
         private String contentText;
         private String cancelText;
@@ -767,7 +767,12 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         private boolean mCancelable = true;
 
         public Builder(Context context) {
+            this(context, NORMAL_TYPE);
+        }
+
+        public Builder(Context context, int alertType) {
             this.context = context;
+            this.alertType = alertType;
         }
 
         public Builder setAlertType(int alertType) {
@@ -810,6 +815,36 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         public Builder setNeutralText(String neutralText) {
             this.neutralText = neutralText;
             return this;
+        }
+
+        public Builder setConfirmButton(String text, OnSweetClickListener listener) {
+            this.confirmText = text;
+            this.confirmClickListener = listener;
+            return this;
+        }
+
+        public Builder setConfirmButton(int resId, OnSweetClickListener listener) {
+            return setConfirmButton(context.getString(resId), listener);
+        }
+
+        public Builder setCancelButton(String text, OnSweetClickListener listener) {
+            this.cancelText = text;
+            this.cancelClickListener = listener;
+            return this;
+        }
+
+        public Builder setCancelButton(int resId, OnSweetClickListener listener) {
+            return setCancelButton(context.getString(resId), listener);
+        }
+
+        public Builder setNeutralButton(String text, OnSweetClickListener listener) {
+            this.neutralText = text;
+            this.neutralClickListener = listener;
+            return this;
+        }
+
+        public Builder setNeutralButton(int resId, OnSweetClickListener listener) {
+            return setNeutralButton(context.getString(resId), listener);
         }
 
         public Builder setCustomImage(Drawable customImgDrawable) {
