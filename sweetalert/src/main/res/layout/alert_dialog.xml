@@ -162,6 +162,16 @@
                     tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
                     tools:visibility="visible" />
 
+                <EditText
+                    android:id="@+id/input_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingHorizontal="10dp"
+                    android:textColor="?attr/sweet_alert_content_text_color"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
                 <FrameLayout
                     android:id="@+id/custom_view_container"
                     android:layout_width="match_parent"
@@ -223,5 +233,19 @@
                 android:visibility="gone"
                 tools:text="Ok" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/footer_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:paddingHorizontal="20dp"
+            android:paddingBottom="15dp"
+            android:textColor="?attr/sweet_alert_content_text_color"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:text="Footer information"
+            tools:visibility="visible" />
     </LinearLayout>
 </FrameLayout>

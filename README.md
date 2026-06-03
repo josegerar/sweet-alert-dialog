@@ -7,6 +7,12 @@ SweetAlert for Android, a beautiful and clever alert dialog
 - **Builder Pattern:** New way to initialize and configure dialogs more cleanly.
 - **Large Text & Custom View Support:** Fixed issues where text or custom views would be cut off, overlap, or push buttons off-screen when the content was too large, by implementing a scrollable container.
 - **Automatic Dark Mode:** Ability to automatically detect and apply dark mode based on system settings.
+- **Toast Mode:** Small, non-blocking notifications that auto-dismiss.
+- **Native Input Support:** Built-in support for text, passwords, and more without custom views.
+- **Auto-close Timer:** Set a timer to automatically dismiss the dialog.
+- **Positioning (Gravity):** Display dialogs at the top, bottom, or center of the screen.
+- **Queue System:** Chain multiple dialogs to appear one after another.
+- **Footer Support:** Add a footer area for secondary information.
 - Ability to set custom view
 - More convenient interface to bind listeners (like in AlertDialog)
 - Third neutral button with own listener, colors, methods and etc.
@@ -225,6 +231,68 @@ More usages about dark mode:
         .setTitleText("Forced Light")
         .setAutoDarkMode(false)
         .show();
+
+### New v2.1 Features Usage
+
+Toast Mode (Non-blocking):
+
+    new SweetAlertDialog.Builder(this, SweetAlertDialog.SUCCESS_TYPE)
+        .setTitleText("Saved!")
+        .setToast(true)
+        .setTimer(2000)
+        .show();
+
+Custom Positioning (Gravity):
+
+    // Display at the top of the screen
+    new SweetAlertDialog.Builder(this)
+        .setTitleText("Top Alert")
+        .setGravity(Gravity.TOP)
+        .show();
+
+    // Display at the bottom of the screen
+    new SweetAlertDialog.Builder(this)
+        .setTitleText("Bottom Alert")
+        .setGravity(Gravity.BOTTOM)
+        .show();
+
+Native Input:
+
+    new SweetAlertDialog.Builder(this)
+        .setTitleText("Enter your name")
+        .setInputType(InputType.TYPE_CLASS_TEXT)
+        .setInputPlaceholder("John Doe")
+        .setConfirmButton("OK", new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sDialog) {
+                String name = sDialog.getInputText();
+                sDialog.dismissWithAnimation();
+            }
+        })
+        .show();
+
+Custom Positioning (Gravity):
+
+    new SweetAlertDialog.Builder(this)
+        .setTitleText("Top Alert")
+        .setGravity(Gravity.TOP)
+        .show();
+
+Footer Information:
+
+    new SweetAlertDialog.Builder(this)
+        .setTitleText("Title")
+        .setContentText("Main content")
+        .setFooterText("Copyright 2024")
+        .show();
+
+Queueing Dialogs:
+
+    new SweetAlertQueue()
+        .add(new SweetAlertDialog.Builder(this).setTitleText("Step 1"))
+        .add(new SweetAlertDialog.Builder(this).setTitleText("Step 2"))
+        .add(new SweetAlertDialog.Builder(this).setTitleText("Step 3"))
+        .showNext();
 
 [more android tech shares: pedant.cn](http://www.pedant.cn)
 

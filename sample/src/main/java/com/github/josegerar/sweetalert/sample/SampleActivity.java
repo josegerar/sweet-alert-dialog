@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.InputType;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
@@ -16,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.github.josegerar.sweetalert.Constants;
 import com.github.josegerar.sweetalert.SweetAlertDialog;
+import com.github.josegerar.sweetalert.SweetAlertQueue;
 
 import org.jspecify.annotations.NonNull;
 
@@ -40,7 +44,7 @@ public class SampleActivity extends Activity implements View.OnClickListener {
                 R.id.basic_test, R.id.styled_text_and_stroke, R.id.basic_test_without_buttons, R.id.under_text_test,
                 R.id.error_text_test, R.id.success_text_test, R.id.warning_confirm_test, R.id.warning_cancel_test,
                 R.id.custom_img_test, R.id.progress_dialog, R.id.neutral_btn_test, R.id.disabled_btn_test, R.id.dark_style,
-                R.id.custom_view_test, R.id.custom_btn_colors_test
+                R.id.custom_view_test, R.id.custom_btn_colors_test, R.id.toast_test, R.id.gravity_test, R.id.input_footer_test, R.id.queue_test
         };
         for (Integer id : btnIds) {
             findViewById(id).setOnClickListener(this);
@@ -234,6 +238,36 @@ public class SampleActivity extends Activity implements View.OnClickListener {
                     .setConfirmText("blue")
                     .setConfirmButtonBackgroundColor(Color.BLUE)
                     .show();
+        } else if (id == R.id.toast_test) {
+            new SweetAlertDialog.Builder(this, SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText("Toast Notification")
+                    .setContentText("I will disappear in 2 seconds")
+                    .setToast(true)
+                    .setTimer(2000)
+                    .show();
+        } else if (id == R.id.gravity_test) {
+            new SweetAlertDialog.Builder(this)
+                    .setTitleText("Top Gravity")
+                    .setContentText("I'm appearing at the top")
+                    .setGravity(Gravity.TOP)
+                    .show();
+        } else if (id == R.id.input_footer_test) {
+            new SweetAlertDialog.Builder(this)
+                    .setTitleText("Input Dialog")
+                    .setInputPlaceholder("Type something...")
+                    .setInputType(InputType.TYPE_CLASS_TEXT)
+                    .setFooterText("This is a footer info")
+                    .setConfirmButton("OK", sDialog -> {
+                        Toast.makeText(SampleActivity.this, "Typed: " + sDialog.getInputText(), Toast.LENGTH_SHORT).show();
+                        sDialog.dismissWithAnimation();
+                    })
+                    .show();
+        } else if (id == R.id.queue_test) {
+            new SweetAlertQueue()
+                    .add(new SweetAlertDialog.Builder(this).setTitleText("Step 1").setContentText("Welcome to the queue"))
+                    .add(new SweetAlertDialog.Builder(this, SweetAlertDialog.ERROR_TYPE).setTitleText("Step 2").setContentText("Something happened"))
+                    .add(new SweetAlertDialog.Builder(this, SweetAlertDialog.SUCCESS_TYPE).setTitleText("Step 3").setContentText("All good now"))
+                    .showNext();
         }
     }
 }

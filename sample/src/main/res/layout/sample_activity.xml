@@ -248,6 +248,62 @@
                 android:layout_margin="10dp"
                 android:text="Try me!" />
 
+            <TextView
+                style="@style/description_style"
+                android:text="Toast mode and Timer" />
+
+            <Button
+                android:id="@+id/toast_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
+                android:layout_margin="10dp"
+                android:text="Try me!" />
+
+            <TextView
+                style="@style/description_style"
+                android:text="Gravity (Top / Bottom)" />
+
+            <Button
+                android:id="@+id/gravity_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
+                android:layout_margin="10dp"
+                android:text="Try me!" />
+
+            <TextView
+                style="@style/description_style"
+                android:text="Native Input and Footer" />
+
+            <Button
+                android:id="@+id/input_footer_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
+                android:layout_margin="10dp"
+                android:text="Try me!" />
+
+            <TextView
+                style="@style/description_style"
+                android:text="Dialog Queue" />
+
+            <Button
+                android:id="@+id/queue_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/button_text_color"
+                android:paddingHorizontal="15dp"
+                android:background="@drawable/green_button_background"
+                android:layout_margin="10dp"
+                android:text="Try me!" />
+
         </LinearLayout>
 
     </RelativeLayout>

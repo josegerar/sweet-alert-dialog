@@ -11,8 +11,10 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Html;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -21,6 +23,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,10 +40,15 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     private final Animation mSuccessBowAnim;
     private TextView mTitleTextView;
     private TextView mContentTextView;
+    private TextView mFooterTextView;
+    private EditText mInputEditText;
     private FrameLayout mCustomViewContainer;
     private View mCustomView;
     private String mTitleText;
     private String mContentText;
+    private String mFooterText;
+    private String mInputPlaceholder;
+    private int mInputType = -1;
     private boolean mShowContent;
     private String mCancelText;
     private String mConfirmText;
@@ -70,9 +78,15 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     private OnSweetClickListener mCancelClickListener;
     private OnSweetClickListener mConfirmClickListener;
     private OnSweetClickListener mNeutralClickListener;
+    private OnDismissListener mOnDismissListener;
+    private OnShowListener mOnShowListener;
     private boolean mCloseFromCancel;
     private boolean mHideKeyBoardOnDismiss = true;
     private int contentTextSize = 0;
+    private boolean mIsToast = false;
+    private long mTimer = 0;
+    private Integer mGravity = null;
+    private boolean mShowLoaderOnConfirm = false;
 
     public static final int NORMAL_TYPE = 0;
     public static final int ERROR_TYPE = 1;
@@ -187,6 +201,15 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         this.titleTextHtml = builder.titleTextHtml;
         this.contentTextHtml = builder.contentTextHtml;
         mCancelable = builder.mCancelable;
+        this.mFooterText = builder.footerText;
+        this.mInputPlaceholder = builder.inputPlaceholder;
+        this.mInputType = builder.inputType;
+        this.mIsToast = builder.isToast;
+        this.mTimer = builder.timer;
+        this.mGravity = builder.gravity;
+        this.mShowLoaderOnConfirm = builder.showLoaderOnConfirm;
+        this.mOnDismissListener = builder.onDismissListener;
+        this.mOnShowListener = builder.onShowListener;
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,6 +220,8 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         mTitleTextView = findViewById(R.id.title_text);
         mContentTextView = findViewById(R.id.content_text);
         mCustomViewContainer = findViewById(R.id.custom_view_container);
+        mFooterTextView = findViewById(R.id.footer_text);
+        mInputEditText = findViewById(R.id.input_text);
         mErrorFrame = findViewById(R.id.error_frame);
         mErrorX = mErrorFrame.findViewById(R.id.error_x);
         mSuccessFrame = findViewById(R.id.success_frame);
@@ -233,6 +258,44 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         setNeutralButtonBackgroundColor(mNeutralButtonBackgroundColor);
         setNeutralButtonTextColor(mNeutralButtonTextColor);
         changeAlertType(mAlertType, true);
+
+        setFooterText(mFooterText);
+        setInputType(mInputType);
+        setInputPlaceholder(mInputPlaceholder);
+
+        if (mIsToast) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            if (mGravity == null) mGravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+        }
+
+        if (mGravity != null) {
+            WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+            layoutParams.gravity = mGravity;
+            getWindow().setAttributes(layoutParams);
+        }
+
+        if (mTimer > 0) {
+            new CountDownTimer(mTimer, mTimer) {
+                @Override
+                public void onTick(long millisUntilFinished) {}
+                @Override
+                public void onFinish() {
+                    dismissWithAnimation();
+                }
+            }.start();
+        }
+
+        if (mShowLoaderOnConfirm) {
+            mConfirmButton.setEnabled(false);
+            mConfirmButton.setText("...");
+        }
+
+        if (mOnDismissListener != null) {
+            super.setOnDismissListener(mOnDismissListener);
+        }
+        if (mOnShowListener != null) {
+            super.setOnShowListener(mOnShowListener);
+        }
     }
 
     private void restore() {
@@ -570,6 +633,30 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         return this;
     }
 
+    public OnSweetClickListener getConfirmClickListener() {
+        return mConfirmClickListener;
+    }
+
+    public OnDismissListener getOnDismissListener() {
+        return mOnDismissListener;
+    }
+
+    @Override
+    public void setOnDismissListener(OnDismissListener listener) {
+        this.mOnDismissListener = listener;
+        super.setOnDismissListener(listener);
+    }
+
+    public OnShowListener getOnShowListener() {
+        return mOnShowListener;
+    }
+
+    @Override
+    public void setOnShowListener(OnShowListener listener) {
+        this.mOnShowListener = listener;
+        super.setOnShowListener(listener);
+    }
+
     public SweetAlertDialog setNeutralText(String text) {
         mNeutralText = text;
         if (mNeutralButton != null && mNeutralText != null && !text.isEmpty()) {
@@ -655,6 +742,58 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
 
     public int getContentTextSize() {
         return contentTextSize;
+    }
+
+    public SweetAlertDialog setFooterText(String text) {
+        mFooterText = text;
+        if (mFooterTextView != null && mFooterText != null) {
+            showFooterText(true);
+            mFooterTextView.setText(mFooterText);
+        }
+        return this;
+    }
+
+    public String getFooterText() {
+        return mFooterText;
+    }
+
+    public SweetAlertDialog showFooterText(boolean isShow) {
+        if (mFooterTextView != null) {
+            mFooterTextView.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        }
+        return this;
+    }
+
+    public SweetAlertDialog setInputPlaceholder(String placeholder) {
+        mInputPlaceholder = placeholder;
+        if (mInputEditText != null && mInputPlaceholder != null) {
+            mInputEditText.setHint(mInputPlaceholder);
+        }
+        return this;
+    }
+
+    public SweetAlertDialog setInputType(int inputType) {
+        mInputType = inputType;
+        if (mInputEditText != null && mInputType != -1) {
+            showInputText(true);
+            mInputEditText.setInputType(mInputType);
+        }
+        return this;
+    }
+
+    public SweetAlertDialog showInputText(boolean isShow) {
+        if (mInputEditText != null) {
+            mInputEditText.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        }
+        return this;
+    }
+
+    public String getInputText() {
+        return mInputEditText != null ? mInputEditText.getText().toString() : "";
+    }
+
+    public EditText getInputEditText() {
+        return mInputEditText;
     }
 
     protected void onStart() {
@@ -773,6 +912,15 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         private boolean mCancelable = true;
         private boolean darkStyle = SweetAlertDialog.DARK_STYLE;
         private boolean autoDarkMode = true;
+        private String footerText;
+        private String inputPlaceholder;
+        private int inputType = -1;
+        private boolean isToast = false;
+        private long timer = 0;
+        private Integer gravity = null;
+        private boolean showLoaderOnConfirm = false;
+        private OnDismissListener onDismissListener;
+        private OnShowListener onShowListener;
 
         public Builder(Context context) {
             this(context, NORMAL_TYPE);
@@ -942,6 +1090,51 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
 
         public Builder setAutoDarkMode(boolean auto) {
             this.autoDarkMode = auto;
+            return this;
+        }
+
+        public Builder setFooterText(String footerText) {
+            this.footerText = footerText;
+            return this;
+        }
+
+        public Builder setInputPlaceholder(String inputPlaceholder) {
+            this.inputPlaceholder = inputPlaceholder;
+            return this;
+        }
+
+        public Builder setInputType(int inputType) {
+            this.inputType = inputType;
+            return this;
+        }
+
+        public Builder setToast(boolean isToast) {
+            this.isToast = isToast;
+            return this;
+        }
+
+        public Builder setTimer(long timer) {
+            this.timer = timer;
+            return this;
+        }
+
+        public Builder setGravity(int gravity) {
+            this.gravity = gravity;
+            return this;
+        }
+
+        public Builder showLoaderOnConfirm(boolean showLoaderOnConfirm) {
+            this.showLoaderOnConfirm = showLoaderOnConfirm;
+            return this;
+        }
+
+        public Builder setOnDismissListener(OnDismissListener onDismissListener) {
+            this.onDismissListener = onDismissListener;
+            return this;
+        }
+
+        public Builder setOnShowListener(OnShowListener onShowListener) {
+            this.onShowListener = onShowListener;
             return this;
         }
 
