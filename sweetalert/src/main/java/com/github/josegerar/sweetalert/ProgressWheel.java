@@ -1,13 +1,11 @@
 package com.github.josegerar.sweetalert;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
@@ -84,17 +82,9 @@ public class ProgressWheel extends View {
         setAnimationEnabled();
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1) private void setAnimationEnabled() {
-        int currentApiVersion = android.os.Build.VERSION.SDK_INT;
-
-        float animationValue;
-        if (currentApiVersion >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            animationValue = Settings.Global.getFloat(getContext().getContentResolver(),
-                    Settings.Global.ANIMATOR_DURATION_SCALE, 1);
-        } else {
-            animationValue = Settings.System.getFloat(getContext().getContentResolver(),
-                    Settings.System.ANIMATOR_DURATION_SCALE, 1);
-        }
+    private void setAnimationEnabled() {
+        float animationValue = Settings.Global.getFloat(getContext().getContentResolver(),
+                Settings.Global.ANIMATOR_DURATION_SCALE, 1);
 
         shouldAnimate = animationValue != 0;
     }

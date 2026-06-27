@@ -69,6 +69,20 @@
                 android:text="Try me!" />
 
             <TextView
+                style="@style/description_style"
+                android:text="A dialog with long content text" />
+
+            <Button
+                android:id="@+id/long_text_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/green_button_background"
+                android:paddingHorizontal="15dp"
+                android:text="Try long text!"
+                android:textColor="@color/button_text_color" />
+
+            <TextView
                 android:id="@+id/txt_1_1"
                 style="@style/description_style"
                 android:text="A basic message \nwithout buttons" />

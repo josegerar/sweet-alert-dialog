@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
+import androidx.core.content.ContextCompat;
+
 public class SuccessTickView extends View {
     private float mDensity = -1;
     private Paint mPaint;
@@ -36,7 +38,7 @@ public class SuccessTickView extends View {
 
     private void init () {
         mPaint = new Paint();
-        mPaint.setColor(getResources().getColor(R.color.success_stroke_color));
+        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.success_stroke_color));
         mLeftRectWidth = CONST_LEFT_RECT_W;
         mRightRectWidth = CONST_RIGHT_RECT_W;
         mLeftRectGrowMode = false;

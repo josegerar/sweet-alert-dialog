@@ -2,6 +2,8 @@ package com.github.josegerar.sweetalert;
 
 import android.content.Context;
 
+import androidx.core.content.ContextCompat;
+
 public class ProgressHelper {
     private ProgressWheel mProgressWheel;
     private boolean mToSpin;
@@ -18,7 +20,7 @@ public class ProgressHelper {
         mToSpin = true;
         mSpinSpeed = 0.75f;
         mBarWidth = ctx.getResources().getDimensionPixelSize(R.dimen.common_circle_width) + 1;
-        mBarColor = ctx.getResources().getColor(R.color.success_stroke_color);
+        mBarColor = ContextCompat.getColor(ctx, R.color.success_stroke_color);
         mRimWidth = 0;
         mRimColor = 0x00000000;
         mIsInstantProgress = false;

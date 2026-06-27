@@ -41,7 +41,7 @@ public class SampleActivity extends Activity implements View.OnClickListener {
             }
         });
         int[] btnIds = {
-                R.id.basic_test, R.id.styled_text_and_stroke, R.id.basic_test_without_buttons, R.id.under_text_test,
+                R.id.basic_test, R.id.long_text_test, R.id.styled_text_and_stroke, R.id.basic_test_without_buttons, R.id.under_text_test,
                 R.id.error_text_test, R.id.success_text_test, R.id.warning_confirm_test, R.id.warning_cancel_test,
                 R.id.custom_img_test, R.id.progress_dialog, R.id.neutral_btn_test, R.id.disabled_btn_test, R.id.dark_style,
                 R.id.custom_view_test, R.id.custom_btn_colors_test, R.id.toast_test, R.id.gravity_test, R.id.input_footer_test, R.id.queue_test
@@ -62,6 +62,22 @@ public class SampleActivity extends Activity implements View.OnClickListener {
                     .build();
             sd.setCanceledOnTouchOutside(true);
             sd.show();
+        } else if (id == R.id.long_text_test) {
+            new SweetAlertDialog.Builder(this)
+                    .setAlertType(SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Texto largo")
+                    .setContentText("Este es un ejemplo de contenido extenso para comprobar cómo se adapta el diálogo cuando el mensaje ocupa muchas líneas.\n\n"
+                            + "El texto debe conservar sus márgenes, permanecer centrado y mostrar cada párrafo completo sin superponerse con el título ni con los botones.\n\n"
+                            + "También permite revisar el comportamiento en pantallas pequeñas, con tamaños de fuente grandes y cuando el usuario tiene activada una escala de visualización diferente.\n\n"
+                            + "Este cuarto párrafo agrega más contenido para superar con claridad la altura normal del diálogo. De esta manera resulta sencillo detectar si algún elemento desaparece, queda recortado o se dibuja fuera de los límites visibles.\n\n"
+                            + "El quinto párrafo simula una explicación detallada que podría aparecer en términos y condiciones, mensajes de validación, reportes de errores o avisos importantes que necesitan comunicar bastante información al usuario.\n\n"
+                            + "El sexto párrafo continúa aumentando la longitud. El título, el icono y los botones deberían conservar su posición, mientras que todo el contenido mantiene una separación uniforme y una lectura cómoda.\n\n"
+                            + "El séptimo párrafo sirve para probar el diálogo tanto en orientación vertical como horizontal. También ayuda a observar qué sucede al cambiar el tamaño del texto desde los ajustes de accesibilidad del dispositivo.\n\n"
+                            + "Finalmente, este último párrafo marca el final del mensaje. Si puedes leer esta línea y siguen visibles los botones Cancelar, Después y Aceptar, entonces todo el contenido ha sido presentado correctamente.")
+                    .setCancelText("Cancelar")
+                    .setNeutralText("Después")
+                    .setConfirmText("Aceptar")
+                    .show();
         } else if (id == R.id.basic_test_without_buttons) {
             SweetAlertDialog sd2 = new SweetAlertDialog.Builder(this)
                     .setContentText("Here's a message")

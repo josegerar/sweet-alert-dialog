@@ -23,6 +23,8 @@ android {
 }
 
 dependencies {
+    implementation "androidx.core:core:1.17.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.2.1"
 }
 
 afterEvaluate {
@@ -32,7 +34,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.josegerar'
                 artifactId = 'sweet-alert-dialog'
-                version = '2.0.7'
+                version = '2.1.1'
             }
         }
     }

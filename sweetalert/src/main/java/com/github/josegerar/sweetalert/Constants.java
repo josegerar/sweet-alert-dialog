@@ -1,33 +1,24 @@
 package com.github.josegerar.sweetalert;
 
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class Constants {
     //make bg a little bit darker
-    public static final View.OnTouchListener FOCUS_TOUCH_LISTENER = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            Drawable drawable = v.getBackground();
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                case MotionEvent.ACTION_BUTTON_PRESS:
-                    if (drawable != null) {
-                        drawable.setColorFilter(0x20000000, PorterDuff.Mode.SRC_ATOP);
-                    }
-                    v.invalidate();
-                    break;
-                case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_CANCEL:
-                    if (drawable != null) {
-                        drawable.clearColorFilter();
-                    }
-                    v.invalidate();
-                    break;
-            }
-            return false;
+    public static final View.OnTouchListener FOCUS_TOUCH_LISTENER = (v, event) -> {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_BUTTON_PRESS:
+                v.setPressed(true);
+                break;
+            case MotionEvent.ACTION_UP:
+                v.setPressed(false);
+                v.performClick();
+                return true;
+            case MotionEvent.ACTION_CANCEL:
+                v.setPressed(false);
+                break;
         }
+        return true;
     };
 }

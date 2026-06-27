@@ -5,7 +5,9 @@ SweetAlert for Android, a beautiful and clever alert dialog
 #### This is a fork of [F0RIS/sweet-alert-dialog](https://github.com/F0RIS/sweet-alert-dialog) with additional fixes and features.
 **Improvements:**
 - **Builder Pattern:** New way to initialize and configure dialogs more cleanly.
-- **Large Text & Custom View Support:** Fixed issues where text or custom views would be cut off, overlap, or push buttons off-screen when the content was too large, by implementing a scrollable container.
+- **Adaptive Content Layout:** Short messages use their natural height. Long text, inputs, and custom views scroll only inside the content area while the icon, title, and action buttons remain visible.
+- **Responsive Action Buttons:** One, two, or three buttons are distributed with a constrained horizontal chain so the last action is never clipped.
+- **Modern Android Compatibility:** Uses AndroidX resource and HTML compatibility APIs, native pressed states, improved accessibility, RTL-aware spacing, and API 36 compatible dependencies.
 - **Automatic Dark Mode:** Ability to automatically detect and apply dark mode based on system settings.
 - **Toast Mode:** Small, non-blocking notifications that auto-dismiss.
 - **Native Input Support:** Built-in support for text, passwords, and more without custom views.
@@ -52,7 +54,7 @@ The simplest way to use SweetAlertDialog is to add the library as aar dependency
     <dependency>
       <groupId>com.github.josegerar</groupId>
       <artifactId>sweet-alert-dialog</artifactId>
-      <version>2.0.7</version>
+      <version>2.1.1</version>
       <type>aar</type>
     </dependency>
 
@@ -63,8 +65,18 @@ The simplest way to use SweetAlertDialog is to add the library as aar dependency
     }
 
     dependencies {
-        implementation 'com.github.josegerar:sweet-alert-dialog:2.0.7'
+        implementation 'com.github.josegerar:sweet-alert-dialog:2.1.1'
     }
+
+### Version 2.1.1
+
+- Keeps the title, icon, footer, and action buttons visible when content is taller than the screen.
+- Scrolls only the message, input, or custom-view area when necessary; short messages do not show an unnecessary scrollbar.
+- Uses a responsive `ConstraintLayout` action row for one, two, or three buttons.
+- Updates AndroidX compatibility, HTML/resource loading, pressed states, accessibility, and RTL spacing.
+- Includes a long-text sample with three actions for layout testing.
+
+The library supports Android API 19 and newer and is built with Android API 36.
 
 ## Usage
 
@@ -116,6 +128,18 @@ A title with a text under：
         .setTitleText("Here's a message!")
         .setContentText("It's pretty, isn't it?")
         .show();
+
+Long content is handled automatically. No extra scroll configuration is required:
+
+    new SweetAlertDialog.Builder(this, SweetAlertDialog.WARNING_TYPE)
+        .setTitleText("Terms and conditions")
+        .setContentText(longText)
+        .setCancelText("Cancel")
+        .setNeutralText("Later")
+        .setConfirmText("Accept")
+        .show();
+
+When `longText` exceeds the available height, only the content area scrolls and all three buttons remain visible.
 
 A error message：
 
@@ -232,7 +256,7 @@ More usages about dark mode:
         .setAutoDarkMode(false)
         .show();
 
-### New v2.1 Features Usage
+### Additional features
 
 Toast Mode (Non-blocking):
 

@@ -6,13 +6,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.text.Html;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -26,8 +24,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 
 public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     private View mDialogView;
@@ -63,7 +63,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     private View mSuccessRightMask;
     private Drawable mCustomImgDrawable;
     private ImageView mCustomImage;
-    private LinearLayout mButtonsContainer;
+    private ViewGroup mButtonsContainer;
     private Button mConfirmButton;
     private Button mCancelButton;
     private Button mNeutralButton;
@@ -234,13 +234,10 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         mButtonsContainer = findViewById(R.id.buttons_container);
         mConfirmButton = findViewById(R.id.confirm_button);
         mConfirmButton.setOnClickListener(this);
-        mConfirmButton.setOnTouchListener(Constants.FOCUS_TOUCH_LISTENER);
         mCancelButton = findViewById(R.id.cancel_button);
         mCancelButton.setOnClickListener(this);
-        mCancelButton.setOnTouchListener(Constants.FOCUS_TOUCH_LISTENER);
         mNeutralButton = findViewById(R.id.neutral_button);
         mNeutralButton.setOnClickListener(this);
-        mNeutralButton.setOnTouchListener(Constants.FOCUS_TOUCH_LISTENER);
         mProgressHelper.setProgressWheel((ProgressWheel) findViewById(R.id.progressWheel));
 
         setTitleText(mTitleText, titleTextHtml);
@@ -287,7 +284,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
 
         if (mShowLoaderOnConfirm) {
             mConfirmButton.setEnabled(false);
-            mConfirmButton.setText("...");
+            mConfirmButton.setText("…");
         }
 
         if (mOnDismissListener != null) {
@@ -412,7 +409,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
             } else {
                 mTitleTextView.setVisibility(View.VISIBLE);
                 if (htmlContent) {
-                    mTitleTextView.setText(Html.fromHtml(mTitleText));
+                    mTitleTextView.setText(HtmlCompat.fromHtml(mTitleText, HtmlCompat.FROM_HTML_MODE_LEGACY));
                 } else {
                     mTitleTextView.setText(mTitleText);
                 }
@@ -435,7 +432,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     }
 
     private SweetAlertDialog setCustomImage(int resourceId) {
-        return setCustomImage(getContext().getResources().getDrawable(resourceId));
+        return setCustomImage(ContextCompat.getDrawable(getContext(), resourceId));
     }
 
     public String getContentText() {
@@ -454,7 +451,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
                 mContentTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, spToPx(contentTextSize, getContext()));
             }
             if (htmlContent) {
-                mContentTextView.setText(Html.fromHtml(mContentText));
+                mContentTextView.setText(HtmlCompat.fromHtml(mContentText, HtmlCompat.FROM_HTML_MODE_LEGACY));
             } else {
                 mContentTextView.setText(mContentText);
             }
@@ -482,10 +479,9 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
 
     private void applyStroke() {
         if (Float.compare(defStrokeWidth, strokeWidth) != 0) {
-            Resources r = getContext().getResources();
-            setButtonBackgroundColor(mConfirmButton, r.getColor(R.color.main_green_color));
-            setButtonBackgroundColor(mNeutralButton, r.getColor(R.color.main_disabled_color));
-            setButtonBackgroundColor(mCancelButton, r.getColor(R.color.red_btn_bg_color));
+            setButtonBackgroundColor(mConfirmButton, ContextCompat.getColor(getContext(), R.color.main_green_color));
+            setButtonBackgroundColor(mNeutralButton, ContextCompat.getColor(getContext(), R.color.main_disabled_color));
+            setButtonBackgroundColor(mCancelButton, ContextCompat.getColor(getContext(), R.color.red_btn_bg_color));
         }
     }
 
