@@ -9,12 +9,13 @@ android {
 
     defaultConfig {
         minSdk 19
+        consumerProguardFiles 'consumer-rules.pro'
         targetSdk 36
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 
     publishing {
@@ -34,7 +35,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.josegerar'
                 artifactId = 'sweet-alert-dialog'
-                version = '2.1.1'
+                version = '2.1.2'
             }
         }
     }

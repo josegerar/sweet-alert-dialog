@@ -54,7 +54,7 @@ The simplest way to use SweetAlertDialog is to add the library as aar dependency
     <dependency>
       <groupId>com.github.josegerar</groupId>
       <artifactId>sweet-alert-dialog</artifactId>
-      <version>2.1.1</version>
+      <version>2.1.2</version>
       <type>aar</type>
     </dependency>
 
@@ -65,7 +65,7 @@ The simplest way to use SweetAlertDialog is to add the library as aar dependency
     }
 
     dependencies {
-        implementation 'com.github.josegerar:sweet-alert-dialog:2.1.1'
+        implementation 'com.github.josegerar:sweet-alert-dialog:2.1.2'
     }
 
 ### Version 2.1.1
@@ -75,6 +75,11 @@ The simplest way to use SweetAlertDialog is to add the library as aar dependency
 - Uses a responsive `ConstraintLayout` action row for one, two, or three buttons.
 - Updates AndroidX compatibility, HTML/resource loading, pressed states, accessibility, and RTL spacing.
 - Includes a long-text sample with three actions for layout testing.
+
+### Version 2.1.2
+
+- Adds an R8 consumer rule that preserves `Rotate3dAnimation`, which is instantiated by name from the animation XML.
+- Builds the library and sample with Java 21; JitPack is configured to use OpenJDK 21.
 
 The library supports Android API 19 and newer and is built with Android API 36.
 
